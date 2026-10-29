@@ -1,0 +1,27 @@
+[project]
+name = "downloads-cleaner"
+version = "0.1.0"
+description = "Find duplicates, leftover downloads, and old junk in your Downloads folder"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "egorfm" }]
+dependencies = [
+    "send2trash>=1.8.3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+downloads-cleaner = "downloads_cleaner.cli:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["downloads_cleaner*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
