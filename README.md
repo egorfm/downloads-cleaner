@@ -1,43 +1,103 @@
-# downloads-cleaner
+<h1 align="center">🧹 downloads-cleaner</h1>
 
-Small CLI that looks at a Downloads folder (or any other directory), groups files by type, and points out the usual mess: leftover `.crdownload` files, old installers, and exact duplicates.
+<p align="center">
+  Быстрая и безопасная консольная утилита для поиска дубликатов, забытых установщиков и мусора в папке загрузок
+</p>
 
-By default it only prints a report. Nothing is deleted. With `--apply` it sends selected files to Trash, not to `/dev/null`.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/CLI-Standard--Library-orange" alt="CLI">
+  <img src="https://img.shields.io/badge/Safe-Trash--Only-brightgreen" alt="Safety">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+</p>
 
-## Install
+---
 
+## ✨ Возможности
+
+- 🔍 **Анализ файлов и группировка**: сканирует папку `Downloads` (или любую другую) и категоризирует файлы по типам и размеру.
+- 👯 **Поиск точных дубликатов**: вычисляет хеши файлов и находит повторяющиеся копии (сохраняя самый свежий файл в каждой группе).
+- 🗑️ **Безопасная очистка**: по умолчанию работает в режиме отчета и предпросмотра. При запуске с флагом `--apply` файлы перемещаются в **Корзину (Trash)**, а не удаляются безвозвратно.
+- 📦 **Детекция временного мусора**: находит недокачанные файлы (`.crdownload`, `.part`), системный мусор (`.DS_Store`, `Thumbs.db`) и старые установщики программ (`.dmg`, `.pkg`, `.exe`).
+- ⏳ **Фильтр по возрасту**: поддержка флага `--days` для нахождения файлов старше заданного количества дней.
+
+---
+
+## 🛠 Стек технологий
+
+- **Python 3.10+**
+- **send2trash** — безопасное перемещение файлов в системную корзину
+- **pytest** — модульное тестирование
+
+---
+
+## 🚀 Быстрый старт
+
+### 1. Клонирование репозитория
+```bash
+git clone https://github.com/egorfm/downloads-cleaner.git
+cd downloads-cleaner
+```
+
+### 2. Создание и активация виртуального окружения
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
 ```
 
-## Usage
+---
+
+## 💻 Использование
 
 ```bash
-# report for ~/Downloads
+# 1. Базовый отчет по папке ~/Downloads (безопасный режим, ничего не удаляется)
 downloads-cleaner
 
-# another folder, treat files older than 14 days as stale
+# 2. Анализ произвольной директории с порогом устаревания 14 дней
 downloads-cleaner ~/Desktop --days 14
 
-# preview what would go to Trash
+# 3. Предпросмотр кандидатов на удаление (мусор + дубликаты)
 downloads-cleaner --junk --duplicates
 
-# actually move those files to Trash
+# 4. Перемещение выбранных файлов в Корзину
 downloads-cleaner --junk --duplicates --apply
 ```
 
-Flags:
+### Основные флаги:
+- `--junk` — поиск незавершенных загрузок, системных файлов и устаревших дистрибутивов
+- `--duplicates` — поиск дубликатов с сохранением самой актуальной копии
+- `--old` — файлы старше указанного количества `--days`
+- `--apply` — переместить найденные файлы в корзину системы
 
-- `--junk` — incomplete downloads, junk files (`.DS_Store`, `Thumbs.db`), installers older than `--days`
-- `--duplicates` — extra copies; keeps the newest file in each hash group
-- `--old` — everything older than `--days` (this one is aggressive, preview first)
-- `--apply` — send the selected files to Trash
+---
 
-## Tests
+## 🧪 Тестирование
 
 ```bash
 pip install -e ".[dev]"
 pytest
 ```
+
+---
+
+## 📁 Структура проекта
+
+```
+downloads-cleaner/
+├── downloads_cleaner/     # Модуль утилиты
+│   ├── cli.py             # Аргументы командной строки и точка входа
+│   ├── scan.py            # Сканирование файловой системы и хеширование
+│   ├── classify.py        # Правила классификации файлов
+│   └── report.py          # Форматирование и вывод отчета
+├── tests/                 # Модульные тесты
+├── pyproject.toml         # Конфигурация пакета и зависимостей
+├── LICENSE                # Лицензия MIT
+└── README.md
+```
+
+---
+
+## 📄 Лицензия
+
+Проект распространяется под лицензией [MIT](LICENSE).
